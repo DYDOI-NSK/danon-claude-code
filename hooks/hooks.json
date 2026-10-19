@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/config-protection.js\"" }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/post-edit-accumulator.js\"" }]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/stop-format-typecheck.js\"", "timeout": 300 },
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/check-console-log.js\"" },
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/desktop-notify.js\"" }
+        ]
+      }
+    ]
+  }
+}

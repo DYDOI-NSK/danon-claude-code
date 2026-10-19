@@ -1,0 +1,17 @@
+{
+  "name": "danon",
+  "owner": {
+    "name": "Danil Konshin",
+    "email": "danil@konshin.com"
+  },
+  "metadata": {
+    "description": "Personal Claude Code plugins"
+  },
+  "plugins": [
+    {
+      "name": "danon",
+      "source": "./",
+      "description": "Personal Claude Code setup for Vue 3 + TypeScript"
+    }
+  ]
+}
