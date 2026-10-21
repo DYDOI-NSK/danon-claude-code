@@ -179,9 +179,18 @@ function processUsers(users) {
 ```
 
 
-###  Vue.js (CRITICAL)
+### Vue.js (CRITICAL)
 
-[Нужно описать критичные кейсы для vue-стека]
+- **Unnecessary watchers** — `watch`/`watchEffect` where `computed`, an event handler, or a declarative binding would do
+- **Lost reactivity** — destructuring `reactive`/props/store without `toRefs`/`toRef`/`storeToRefs`; reassigning a whole `reactive` object; passing `ref.value` instead of the ref into a composable
+- **Prop mutation** — directly changing props, including nested objects and arrays; changes must go through `emit`/`defineModel`
+- **Resource leaks** — `addEventListener`, `setInterval`/`setTimeout`, subscriptions, WebSockets, and third-party library instances without cleanup in `onUnmounted`/`onScopeDispose`/`watch` cleanup
+- **Side effects in `computed` and templates** — state mutations, requests, or other side effects inside `computed`; heavy computations via function calls in the template instead of `computed`
+- **`v-for` keys and `v-if`** — missing or unstable `:key` (array index in a mutable list, `Math.random()`); `v-if` and `v-for` on the same element
+- **XSS via `v-html` and dynamic attributes** — `v-html` with user-supplied or external data without sanitizing; `:href`/`:src` from an untrusted source (`javascript:`); `innerHTML` in render functions
+- **Hooks and composables outside synchronous setup context** — `onMounted`, `inject`, `useRoute`, etc. called after `await`, inside conditions, or in callbacks: the component instance is lost and the hook is not registered
+- **Races and unhandled errors in async code** — requests in `watch`/`onMounted` without cancellation (`AbortController`, `onWatcherCleanup`) or a stale-response check; no `try/catch` or error/loading state
+- **Excessive deep reactivity** — large structures, class instances, and third-party objects (maps, charts, editors) in `ref`/`reactive` instead of `shallowRef`/`markRaw`; `deep: true` on large data
 
 ### Performance (MEDIUM)
 
