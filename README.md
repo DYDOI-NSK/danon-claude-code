@@ -39,16 +39,10 @@
 
 ## Что нужно сделать
 
-- [ ] Проверил описание имеющихся агентов. Нужно проверить их в действии
-- [ ] Для code-reviewer написать критические проблемы для vue-фреймворка 
-
-Файлы скопированы без правок, поэтому ссылаются на то, чего в сборке нет:
-
-- агенты `security-reviewer`, `tdd-guide`, `architect`, `refactor-cleaner`, `e2e-runner`, `doc-updater` и агенты других языков — в `rules/common/*.md`, `agents/build-error-resolver.md`, `agents/vue-reviewer.md` и др.;
-- `/ecc:ecc-guide` — `rules/common/agents.md`;
-- `scripts/hooks/suggest-compact.js` — `skills/strategic-compact/SKILL.md`;
-- `scripts/setup-package-manager.js` — `skills/tdd-workflow/SKILL.md`.
-
-Найти всё: `grep -rnE "security-reviewer|tdd-guide|architect|refactor-cleaner|e2e-runner|doc-updater|/ecc:|scripts/" agents skills rules`.
-
-
+- [x] Проверил описание имеющихся агентов.
+- [x] Для code-reviewer написать критические проблемы для vue-фреймворка 
+- [x] Проверить имеющиеся скиллы 
+- [ ] Проверить rules
+- [ ] Скорректировать vue-patterns скилл 
+- [ ] Исправить ссылки внутри проекта
+- [ ] Опубликовать плагин и опробовать его в действии

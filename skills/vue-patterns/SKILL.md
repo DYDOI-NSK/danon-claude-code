@@ -60,18 +60,13 @@ src/
 // 1. Imports (vue → ecosystem → absolute → relative)
 // 2. Props & Emits & Slots
 // 3. Composables
-// 4. Local state (ref/reactive)
-// 5. Computed properties
-// 6. Methods
-// 7. Watchers
-// 8. Lifecycle hooks
 </script>
 
 <template>
   <!-- Template content -->
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   /* Scoped styles */
 </style>
 ```

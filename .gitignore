@@ -1,0 +1,15 @@
+# Obsidian vault config (personal, not part of the plugin)
+.obsidian/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp

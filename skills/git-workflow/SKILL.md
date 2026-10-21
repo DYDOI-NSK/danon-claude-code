@@ -18,45 +18,6 @@ Best practices for Git version control, branching strategies, and collaborative 
 - Managing releases and version tags
 - Onboarding new team members to Git practices
 
-## Branching Strategies
-
-### GitHub Flow (Simple, Recommended for Most)
-
-Best for continuous deployment and small-to-medium teams.
-
-```
-main (protected, always deployable)
-  │
-  ├── feature/user-auth      → PR → merge to main
-  ├── feature/payment-flow   → PR → merge to main
-  └── fix/login-bug          → PR → merge to main
-```
-
-**Rules:**
-- `main` is always deployable
-- Create feature branches from `main`
-- Open Pull Request when ready for review
-- After approval and CI passes, merge to `main`
-- Deploy immediately after merge
-
-### Trunk-Based Development (High-Velocity Teams)
-
-Best for teams with strong CI/CD and feature flags.
-
-```
-main (trunk)
-  │
-  ├── short-lived feature (1-2 days max)
-  ├── short-lived feature
-  └── short-lived feature
-```
-
-**Rules:**
-- Everyone commits to `main` or very short-lived branches
-- Feature flags hide incomplete work
-- CI must pass before merge
-- Deploy multiple times per day
-
 ### GitFlow (Complex, Release-Cycle Driven)
 
 Best for scheduled releases and enterprise projects.
@@ -66,12 +27,10 @@ main (production releases)
   │
   └── develop (integration branch)
         │
-        ├── feature/user-auth
-        ├── feature/payment
+        ├── feature/user-auth → PR to review/user-auth  
+        ├── review/user-auth  → PR to release/1.0.0 
         │
-        ├── release/1.0.0    → merge to main and develop
-        │
-        └── hotfix/critical  → merge to main and develop
+        ├── release/1.0.0    → PR to main and develop
 ```
 
 **Rules:**
@@ -79,42 +38,21 @@ main (production releases)
 - `develop` is the integration branch
 - Feature branches from `develop`, merge back to `develop`
 - Release branches from `develop`, merge to `main` and `develop`
-- Hotfix branches from `main`, merge to both `main` and `develop`
-
-### When to Use Which
-
-| Strategy | Team Size | Release Cadence | Best For |
-|----------|-----------|-----------------|----------|
-| GitHub Flow | Any | Continuous | SaaS, web apps, startups |
-| Trunk-Based | 5+ experienced | Multiple/day | High-velocity teams, feature flags |
-| GitFlow | 10+ | Scheduled | Enterprise, regulated industries |
 
 ## Commit Messages
 
 ### Conventional Commits Format
 
 ```
-<type>(<scope>): <subject>
-
-[optional body]
-
-[optional footer(s)]
+<type>(<task-name>): <subject>
 ```
 
 ### Types
 
-| Type | Use For | Example |
-|------|---------|---------|
-| `feat` | New feature | `feat(auth): add OAuth2 login` |
-| `fix` | Bug fix | `fix(api): handle null response in user endpoint` |
-| `docs` | Documentation | `docs(readme): update installation instructions` |
-| `style` | Formatting, no code change | `style: fix indentation in login component` |
-| `refactor` | Code refactoring | `refactor(db): extract connection pool to module` |
-| `test` | Adding/updating tests | `test(auth): add unit tests for token validation` |
-| `chore` | Maintenance tasks | `chore(deps): update dependencies` |
-| `perf` | Performance improvement | `perf(query): add index to users table` |
-| `ci` | CI/CD changes | `ci: add PostgreSQL service to test workflow` |
-| `revert` | Revert previous commit | `revert: revert "feat(auth): add OAuth2 login"` |
+| Type   | Use For     | Example                             |
+| ------ | ----------- | ----------------------------------- |
+| `feat` | New feature | `feat(task-name): add OAuth2 login` |
+
 
 ### Good vs Bad Examples
 
@@ -125,29 +63,8 @@ git commit -m "updates"
 git commit -m "WIP"
 
 # GOOD: Clear, specific, explains why
-git commit -m "fix(api): retry requests on 503 Service Unavailable
-
-The external API occasionally returns 503 errors during peak hours.
-Added exponential backoff retry logic with max 3 attempts.
-
-Closes #123"
+git commit -m "feat(KBSP-2438): retry requests on 503 Service Unavailable"
 ```
-
-### Commit Message Template
-
-Create `.gitmessage` in repo root:
-
-```
-# <type>(<scope>): <subject>
-# # Types: feat, fix, docs, style, refactor, test, chore, perf, ci, revert
-# Scope: api, ui, db, auth, etc.
-# Subject: imperative mood, no period, max 50 chars
-#
-# [optional body] - explain why, not what
-# [optional footer] - Breaking changes, closes #issue
-```
-
-Enable with: `git config commit.template .gitmessage`
 
 ## Merge vs Rebase
 
@@ -213,6 +130,7 @@ git push --force-with-lease origin feature/user-auth
 - Other people have based work on
 - Are protected branches (main, develop)
 - Are already merged
+- It's possible to handle issue with simple merge
 
 # Why: Rebase rewrites history, breaking others' work
 ```
@@ -222,7 +140,7 @@ git push --force-with-lease origin feature/user-auth
 ### PR Title Format
 
 ```
-<type>(<scope>): <description>
+<type>(<task-name>): <description>
 
 Examples:
 feat(auth): add SSO support for enterprise users
@@ -350,23 +268,10 @@ git rebase origin/main
 ```
 # Feature branches
 feature/user-authentication
-feature/JIRA-123-payment-integration
-
-# Bug fixes
-fix/login-redirect-loop
-fix/456-null-pointer-exception
-
-# Hotfixes (production issues)
-hotfix/critical-security-patch
-hotfix/database-connection-leak
+feature/JIRA-123
 
 # Releases
 release/1.2.0
-release/2024-01-hotfix
-
-# Experiments/POCs
-experiment/new-caching-strategy
-poc/graphql-migration
 ```
 
 ### Branch Cleanup
@@ -487,64 +392,6 @@ git config --global diff.algorithm histogram
 git config --global color.ui auto
 ```
 
-### Useful Aliases
-
-```bash
-# Add to ~/.gitconfig
-[alias]
-    co = checkout
-    br = branch
-    ci = commit
-    st = status
-    unstage = reset HEAD --
-    last = log -1 HEAD
-    visual = log --oneline --graph --all
-    amend = commit --amend --no-edit
-    wip = commit -m "WIP"
-    undo = reset --soft HEAD~1
-    contributors = shortlog -sn
-```
-
-### Gitignore Patterns
-
-```gitignore
-# Dependencies
-node_modules/
-vendor/
-
-# Build outputs
-dist/
-build/
-*.o
-*.exe
-
-# Environment files
-.env
-.env.local
-.env.*.local
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-logs/
-
-# Test coverage
-coverage/
-
-# Cache
-.cache/
-*.tsbuildinfo
-```
-
 ## Common Workflows
 
 ### Starting a New Feature
@@ -617,43 +464,6 @@ git commit --amend -m "New message"
 # Add forgotten file to last commit
 git add forgotten-file
 git commit --amend --no-edit
-```
-
-## Git Hooks
-
-### Pre-Commit Hook
-
-```bash
-#!/bin/bash
-# .git/hooks/pre-commit
-
-# Run linting
-npm run lint || exit 1
-
-# Run tests
-npm test || exit 1
-
-# Check for secrets
-if git diff --cached | grep -E '(password|api_key|secret)'; then
-    echo "Possible secret detected. Commit aborted."
-    exit 1
-fi
-```
-
-### Pre-Push Hook
-
-```bash
-#!/bin/bash
-# .git/hooks/pre-push
-
-# Run full test suite
-npm run test:all || exit 1
-
-# Check for console.log statements
-if git diff origin/main | grep -E 'console\.log'; then
-    echo "Remove console.log statements before pushing."
-    exit 1
-fi
 ```
 
 ## Anti-Patterns
