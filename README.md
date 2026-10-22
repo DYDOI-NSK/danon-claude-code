@@ -7,23 +7,25 @@
 ## Установка
 
 ```bash
-# в Claude Code
-/plugin marketplace add <путь или git-URL этого репозитория>
+/plugin marketplace add DYDOI-NSK/danon-claude-code
 /plugin install danon@danon
 
-# rules плагином не ставятся — отдельно:
-./install-rules.sh   # симлинк rules/ -> ~/.claude/rules/danon
+# rules плагином не ставятся — отдельно, из локального клона
+# (симлинк rules/ -> ~/.claude/rules/danon):
+./install-rules.sh
 ```
 
 ## Что внутри
 
-| Папка | Содержимое |
-|---|---|
-| `agents/` | planner, code-reviewer, vue-reviewer, typescript-reviewer, build-error-resolver, silent-failure-hunter |
-| `skills/` | vue-patterns, vite-patterns, frontend-patterns, e2e-testing, tdd-workflow, verification-loop, git-workflow, search-first, strategic-compact, context-budget |
-| `rules/` | common, typescript, vue, web |
-| `hooks/hooks.json` | см. ниже |
-| `scripts/hooks`, `scripts/lib` | скрипты хуков ECC и их зависимости (Node, без npm-пакетов) |
+| Папка                          | Содержимое                                                                                                                                                        |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `agents/`                      | architect, build-error-resolver, code-reviewer, planner, refactor-cleaner, security-reviewer, silent-failure-hunter, tdd-guide, typescript-reviewer, vue-reviewer |
+| `skills/`                      | context-budget, e2e-testing, ecc-guide, git-workflow, search-first, strategic-compact, tdd-workflow, verification-loop, vite-patterns, vue-patterns               |
+| `rules/`                       | common, typescript, vue, web                                                                                                                                      |
+| `hooks/hooks.json`             | см. ниже                                                                                                                                                          |
+| `scripts/hooks`, `scripts/lib` | скрипты хуков ECC и их зависимости (Node, без npm-пакетов)                                                                                                        |
+
+Агенты вызываются как `danon:<агент>`, скиллы — как `/danon:<скилл>`. Справочник по содержимому плагина — `/danon:ecc-guide`.
 
 ### Хуки
 
@@ -35,14 +37,12 @@
 | Stop | `check-console-log.js` | предупреждает о `console.log` в изменённых файлах |
 | Stop | `desktop-notify.js` | уведомление macOS о готовом ответе |
 
-Хуки подключены напрямую, без диспетчера `run-with-flags.js` и профилей ECC (`ECC_HOOK_PROFILE` здесь не действует).
-
 ## Что нужно сделать
 
 - [x] Проверил описание имеющихся агентов.
 - [x] Для code-reviewer написать критические проблемы для vue-фреймворка 
 - [x] Проверить имеющиеся скиллы 
-- [ ] Проверить rules
+- [x] Проверить rules
 - [ ] Скорректировать vue-patterns скилл 
-- [ ] Исправить ссылки внутри проекта
-- [ ] Опубликовать плагин и опробовать его в действии
+- [x] Исправить ссылки внутри проекта
+- [x] Опубликовать плагин и опробовать его в действии

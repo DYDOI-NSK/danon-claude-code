@@ -2,36 +2,32 @@
 
 ## Available Agents
 
-ECC agents come either from the `ecc@ecc` plugin (plugin-scoped names, `ecc:<name>`) or from a manual install into `~/.claude/agents/` (bare names, `<name>`). Use the name that matches the install you have; the manual installer strips the `ecc:` prefix from copied files.
+Agents come from the `danon@danon` plugin and use plugin-scoped names (`danon:<name>`).
 They are invoked through the Agent tool with that `subagent_type`:
 
 ```text
-Agent(subagent_type: "ecc:planner", prompt: "...")
+Agent(subagent_type: "danon:planner", prompt: "...")
 ```
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| ecc:planner | Implementation planning | Complex features, refactoring |
-| ecc:architect | System design | Architectural decisions |
-| ecc:tdd-guide | Test-driven development | New features, bug fixes |
-| ecc:code-reviewer | Code review | After writing code |
-| ecc:security-reviewer | Security analysis | Before commits |
-| ecc:build-error-resolver | Fix build errors | When build fails |
-| ecc:e2e-runner | E2E testing | Critical user flows |
-| ecc:refactor-cleaner | Dead code cleanup | Code maintenance |
-| ecc:doc-updater | Documentation | Updating docs |
-| ecc:rust-reviewer | Rust code review | Rust projects |
-| ecc:harmonyos-app-resolver | HarmonyOS app development | HarmonyOS/ArkTS projects |
+| Agent                      | Purpose                   | When to Use                   |
+| -------------------------- | ------------------------- | ----------------------------- |
+| danon:planner                | Implementation planning   | Complex features, refactoring |
+| danon:architect              | System design             | Architectural decisions       |
+| danon:tdd-guide              | Test-driven development   | New features, bug fixes       |
+| danon:code-reviewer          | Code review               | After writing code            |
+| danon:security-reviewer      | Security analysis         | Before commits                |
+| danon:build-error-resolver   | Fix build errors          | When build fails              |
+| danon:refactor-cleaner       | Dead code cleanup         | Code maintenance              |
 
-For the full roster of 69 agents, see `/ecc:ecc-guide`.
+For the full roster of agents, see `/danon:ecc-guide`.
 
 ## Immediate Agent Usage
 
 No user prompt needed:
-1. Complex feature requests - Use **ecc:planner** agent
-2. Code just written/modified - Use **ecc:code-reviewer** agent
-3. Bug fix or new feature - Use **ecc:tdd-guide** agent
-4. Architectural decision - Use **ecc:architect** agent
+1. Complex feature requests - Use **danon:planner** agent
+2. Code just written/modified - Use **danon:code-reviewer** agent
+3. Bug fix or new feature - Use **danon:tdd-guide** agent
+4. Architectural decision - Use **danon:architect** agent
 
 ## Parallel Task Execution
 
