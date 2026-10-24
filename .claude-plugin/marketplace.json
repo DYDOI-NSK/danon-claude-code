@@ -11,7 +11,7 @@
     {
       "name": "danon",
       "source": "./",
-      "description": "Personal Claude Code setup for Vue 3 + TypeScript"
+      "description": "Personal Claude Code setup"
     }
   ]
 }

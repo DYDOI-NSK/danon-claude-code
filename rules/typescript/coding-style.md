@@ -9,6 +9,10 @@ paths:
 
 > This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.
 
+## Namespace
+
+Use namespace for types and interfaces declaration. Namespace responsible for domain part of project.
+
 ## Types and Interfaces
 
 Use types to make public APIs, shared models, and component props explicit, readable, and reusable.
@@ -26,12 +30,9 @@ export function formatUser(user) {
 }
 
 // CORRECT: Explicit types on public APIs
-interface User {
-  firstName: string
-  lastName: string
-}
+import { AuthTypes } from './auth.types.ts';
 
-export function formatUser(user: User): string {
+export function formatUser(user: AuthTypes.User): string {
   return `${user.firstName} ${user.lastName}`
 }
 ```
@@ -43,14 +44,17 @@ export function formatUser(user: User): string {
 - Prefer string literal unions over `enum` unless an `enum` is required for interoperability
 
 ```typescript
-interface User {
-  id: string
-  email: string
-}
-
-type UserRole = 'admin' | 'member'
-type UserWithRole = User & {
-  role: UserRole
+export namespace AuthTypes {
+  export interface User {
+    id: string
+    email: string
+  }
+  
+  export interface UserWithRole extends User {
+    role: UserRole
+  } 
+  
+  type UserRole = 'admin' | 'member'
 }
 ```
 
@@ -76,41 +80,42 @@ function getErrorMessage(error: unknown): string {
 }
 ```
 
-### React Props
+### Types order declaration
 
-- Define component props with a named `interface` or `type`
+In all namespaces declaration order is:
+- enums
+- interfaces
+- types
+
+Separate declarations with an empty line
+
+### Components Props
+
+- Define component props with a named `interface`
 - Type callback props explicitly
-- Do not use `React.FC` unless there is a specific reason to do so
 
-```typescript
-interface User {
-  id: string
-  email: string
+```typescript user-card.types.ts
+import { AuthTypes } from './auth.types.ts'
+
+export namespace UserCardTypes {
+  export interface Props {
+    user: AuthTypes.User
+    onSelect: (id: string) => void
+  }
 }
 
-interface UserCardProps {
-  user: User
-  onSelect: (id: string) => void
-}
-
-function UserCard({ user, onSelect }: UserCardProps) {
-  return <button onClick={() => onSelect(user.id)}>{user.email}</button>
-}
 ```
 
-### JavaScript Files
+```typescript
+<script setup lang="ts">
+import { UserCardTypes } from './user-card.types.ts';
 
-- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical
-- Keep JSDoc aligned with runtime behavior
+const props = defineProps<UserCardTypes.Props>()
+</script>
 
-```javascript
-/**
- * @param {{ firstName: string, lastName: string }} user
- * @returns {string}
- */
-export function formatUser(user) {
-  return `${user.firstName} ${user.lastName}`
-}
+<template>
+    <button @click="() => props.onSelect(props.user.id)">{{props.user.email}}</button>
+</template>
 ```
 
 ## Immutability
@@ -118,19 +123,14 @@ export function formatUser(user) {
 Use spread operator for immutable updates:
 
 ```typescript
-interface User {
-  id: string
-  name: string
-}
-
 // WRONG: Mutation
-function updateUser(user: User, name: string): User {
+function updateUser(user: AuthTypes.User, name: string): AuthTypes.User {
   user.name = name // MUTATION!
   return user
 }
 
 // CORRECT: Immutability
-function updateUser(user: Readonly<User>, name: string): User {
+function updateUser(user: Readonly<AuthTypes.User>, name: string): AuthTypes.User {
   return {
     ...user,
     name
@@ -143,12 +143,11 @@ function updateUser(user: Readonly<User>, name: string): User {
 Use async/await with try-catch and narrow unknown errors safely:
 
 ```typescript
-interface User {
-  id: string
-  email: string
-}
+import { AuthTypes } from './auth.types.ts'
 
-declare function riskyOperation(userId: string): Promise<User>
+function riskyOperation(userId: string): Promise<AuthTypes.User> {
+  throw new Error('unknown error')
+}
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
@@ -160,36 +159,18 @@ function getErrorMessage(error: unknown): string {
 
 const logger = {
   error: (message: string, error: unknown) => {
-    // Replace with your production logger (for example, pino or winston).
+    // Replace with your production logger (for example, pino or winston). If logger not exist then ignore
   }
 }
 
-async function loadUser(userId: string): Promise<User> {
+async function loadUser(userId: string): Promise<AuthTypes.User> {
   try {
-    const result = await riskyOperation(userId)
-    return result
+    return await riskyOperation(userId)
   } catch (error: unknown) {
     logger.error('Operation failed', error)
     throw new Error(getErrorMessage(error))
   }
 }
-```
-
-## Input Validation
-
-Use Zod for schema-based validation and infer types from the schema:
-
-```typescript
-import { z } from 'zod'
-
-const userSchema = z.object({
-  email: z.string().email(),
-  age: z.number().int().min(0).max(150)
-})
-
-type UserInput = z.infer<typeof userSchema>
-
-const validated: UserInput = userSchema.parse(input)
 ```
 
 ## Console.log
