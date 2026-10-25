@@ -1,5 +1,7 @@
 # Obsidian vault config (personal, not part of the plugin)
 .obsidian/
+.zed/
+.claude/
 
 # Node
 node_modules/
