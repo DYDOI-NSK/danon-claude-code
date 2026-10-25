@@ -69,7 +69,7 @@ You DO NOT refactor or rewrite code — you report findings only.
 - **Replacing entire `reactive()` object**: `state = newState` breaks reactivity — mutate properties instead or use `Object.assign(state, newState)`.
 - **Watcher source as a getter returning reactive data without `.value`**: `watch(() => myRef, ...)` watches the ref object (stays same), not its value. Must be `watch(() => myRef.value, ...)`.
 - **Watching destructured prop directly (Vue 3.5+)**: `watch(count, ...)` on a destructured prop causes a compile-time error. Use `watch(() => count, ...)`.
-- **Watch use instead declarative approaches**:  using watch effects when it possible to develop feature with declarative vue instruments. Watchers are hard to debug and locate where bugs are comming from.
+- **Watch use instead declarative approaches**: using watch effects when it possible to develop feature with declarative vue instruments. Watchers are hard to debug and locate where bugs are comming from.
 
 ### HIGH — Composables
 
@@ -198,7 +198,7 @@ Verdict: BLOCK — HIGH issues must be fixed before merge.
 ## Related
 
 - Agents: `typescript-reviewer` (generic TS/JS, invoked alongside on `.vue`/`.ts`), `security-reviewer` (project-wide audit)
-- Rules: `rules/vue/coding-style.md`, `rules/vue/hooks.md`, `rules/vue/patterns.md`, `rules/vue/security.md`, `rules/vue/testing.md`
+- Rules: `rules/vue/coding-style.md`, `rules/vue/patterns.md`, `rules/vue/security.md`, `rules/vue/testing.md`
 - Skills: `skills/vue-patterns/`
 - Commands: `/vue-review`
 

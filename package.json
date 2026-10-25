@@ -1,11 +1,18 @@
 {
   "name": "danon-claude-code",
+  "version": "0.1.0",
   "private": true,
   "description": "Dev tooling for the repo (not part of the plugin, which lives in plugins/danon)",
   "scripts": {
     "prepare": "husky"
   },
   "devDependencies": {
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "3.9.10"
+  },
+  "packageManager": "pnpm@12.15.0",
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown"
   }
 }
