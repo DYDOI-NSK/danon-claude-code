@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "danon",
-      "source": "./",
+      "source": "./plugins/danon",
       "description": "Personal Claude Code setup"
     }
   ]

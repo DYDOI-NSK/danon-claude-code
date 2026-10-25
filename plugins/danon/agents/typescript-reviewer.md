@@ -60,7 +60,6 @@ You DO NOT refactor or rewrite code — you report findings only.
 - **Swallowed errors**: Empty `catch` blocks or `catch (e) {}` with no action
 - **`JSON.parse` without try/catch**: Throws on invalid input — always wrap
 - **Throwing non-Error objects**: `throw "message"` — always `throw new Error("message")`
-- **Missing error boundaries**: React trees without `<ErrorBoundary>` around async/data-fetching subtrees
 
 ### HIGH -- Idiomatic Patterns
 - **Mutable shared state**: Module-level mutable variables — prefer immutable data and pure functions
@@ -68,28 +67,6 @@ You DO NOT refactor or rewrite code — you report findings only.
 - **Implicit `any` from missing return types**: Public functions should have explicit return types
 - **Callback-style async**: Mixing callbacks with `async/await` — standardise on promises
 - **`==` instead of `===`**: Use strict equality throughout
-
-### HIGH -- Node.js Specifics
-- **Synchronous fs in request handlers**: `fs.readFileSync` blocks the event loop — use async variants
-- **Missing input validation at boundaries**: No schema validation (zod, joi, yup) on external data
-- **Unvalidated `process.env` access**: Access without fallback or startup validation
-- **`require()` in ESM context**: Mixing module systems without clear intent
-
-### MEDIUM -- React / Next.js (when applicable)
-
-> **For React-specific review, prefer `react-reviewer` via `/react-review`.** This block remains as a fallback only — when the diff contains `.tsx`/`.jsx` files, both agents should be invoked. See `agents/react-reviewer.md` for the full React-specific CRITICAL/HIGH rule set (hooks rules, `dangerouslySetInnerHTML`, RSC boundaries, accessibility, render performance).
-
-- **Missing dependency arrays**: `useEffect`/`useCallback`/`useMemo` with incomplete deps — use exhaustive-deps lint rule
-- **State mutation**: Mutating state directly instead of returning new objects
-- **Key prop using index**: `key={index}` in dynamic lists — use stable unique IDs
-- **`useEffect` for derived state**: Compute derived values during render, not in effects
-- **Server/client boundary leaks**: Importing server-only modules into client components in Next.js
-
-### MEDIUM -- Performance
-- **Object/array creation in render**: Inline objects as props cause unnecessary re-renders — hoist or memoize
-- **N+1 queries**: Database or API calls inside loops — batch or use `Promise.all`
-- **Missing `React.memo` / `useMemo`**: Expensive computations or components re-running on every render
-- **Large bundle imports**: `import _ from 'lodash'` — use named imports or tree-shakeable alternatives
 
 ### MEDIUM -- Best Practices
 - **`console.log` left in production code**: Use a structured logger

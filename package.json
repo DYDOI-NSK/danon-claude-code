@@ -1,0 +1,11 @@
+{
+  "name": "danon-claude-code",
+  "private": true,
+  "description": "Dev tooling for the repo (not part of the plugin, which lives in plugins/danon)",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

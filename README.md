@@ -19,11 +19,11 @@
 
 | Папка                          | Содержимое                                                                                                                                                        |
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `agents/`                      | architect, build-error-resolver, code-reviewer, planner, refactor-cleaner, security-reviewer, silent-failure-hunter, tdd-guide, typescript-reviewer, vue-reviewer |
-| `skills/`                      | context-budget, e2e-testing, ecc-guide, git-workflow, search-first, strategic-compact, tdd-workflow, verification-loop, vite-patterns, vue-patterns               |
-| `rules/`                       | common, typescript, vue, web                                                                                                                                      |
-| `hooks/hooks.json`             | см. ниже                                                                                                                                                          |
-| `scripts/hooks`, `scripts/lib` | скрипты хуков ECC и их зависимости (Node, без npm-пакетов)                                                                                                        |
+| `plugins/danon/agents/`        | architect, build-error-resolver, code-reviewer, planner, refactor-cleaner, security-reviewer, silent-failure-hunter, tdd-guide, typescript-reviewer, vue-reviewer |
+| `plugins/danon/skills/`        | context-budget, e2e-testing, ecc-guide, git-workflow, search-first, strategic-compact, tdd-workflow, verification-loop, vite-patterns, vue-patterns               |
+| `plugins/danon/rules/`         | common, typescript, vue, web                                                                                                                                      |
+| `plugins/danon/hooks/hooks.json` | см. ниже                                                                                                                                                          |
+| `plugins/danon/scripts/{hooks,lib}` | скрипты хуков ECC и их зависимости (Node, без npm-пакетов)                                                                                                        |
 
 Агенты вызываются как `danon:<агент>`, скиллы — как `/danon:<скилл>`. Справочник по содержимому плагина — `/danon:ecc-guide`.
 
@@ -36,13 +36,3 @@
 | Stop | `stop-format-typecheck.js` | Prettier/Biome + `tsc --noEmit` по изменённым JS/TS-файлам |
 | Stop | `check-console-log.js` | предупреждает о `console.log` в изменённых файлах |
 | Stop | `desktop-notify.js` | уведомление macOS о готовом ответе |
-
-## Что нужно сделать
-
-- [x] Проверил описание имеющихся агентов.
-- [x] Для code-reviewer написать критические проблемы для vue-фреймворка 
-- [x] Проверить имеющиеся скиллы 
-- [x] Проверить rules
-- [x] Исправить ссылки внутри проекта
-- [ ] Опубликовать плагин и опробовать его в действии
-- [ ] Скорректировать vue-patterns скилл
