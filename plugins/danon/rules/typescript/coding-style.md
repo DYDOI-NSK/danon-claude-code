@@ -140,6 +140,31 @@ const props = defineProps<UserCardTypes.Props>()
 </template>
 ```
 
+## Imports
+
+Choose the import path by how far the module is from the importing file.
+
+- Use a relative path (`./` or `../`) when the module is in the same folder, a subfolder, or at most two levels up
+- Use the project alias (for example `@/`) when reaching the module needs three or more `../`
+- Never write `../../../` or deeper
+- Use the alias already configured in the project (`tsconfig.json` paths or bundler config)
+
+```typescript
+// File: src/projects/project-name/shared/utils/helpers/apply-changes.ts
+
+// WRONG: alias for a nearby module
+import { mapDataChanges } from "@/projects/project-name/shared/utils/mappers/data-changes-mapper";
+
+// CORRECT: one level up, relative path
+import { mapDataChanges } from "../mappers/data-changes-mapper";
+
+// WRONG: deep relative path
+import { formatDate } from "../../../../../shared/lib/format-date";
+
+// CORRECT: far away module, alias
+import { formatDate } from "@/projects/project-name/shared/lib/format-date";
+```
+
 ## Immutability
 
 Use spread operator for immutable updates:
