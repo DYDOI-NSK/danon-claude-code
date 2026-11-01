@@ -1,6 +1,6 @@
 {
   "name": "danon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Personal Claude Code setup for Vue 3 + TypeScript: agents, skills and quality hooks, curated from everything-claude-code",
   "author": {
     "name": "Danil Konshin",
